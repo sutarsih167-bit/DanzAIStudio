@@ -1,0 +1,26 @@
+const express = require("express");
+const { v4: uuidv4 } = require("uuid");
+const cors = require("cors");
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+let apiKeys = [];
+
+app.post("/create-key", (req, res) => {
+  const key = "API-" + uuidv4();
+
+  apiKeys.push({ key });
+
+  res.json({ apiKey: key });
+});
+
+// TEST ROOT
+app.get("/", (req, res) => {
+  res.send("API SERVER AKTIF 🔥");
+});
+
+app.listen(3000, () => {
+  console.log("Server jalan di http://localhost:3000");
+});
