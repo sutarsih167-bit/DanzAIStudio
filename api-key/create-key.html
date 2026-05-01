@@ -1,48 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Create Api Key</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<head>
+  <meta charset="UTF-8">
+  <title>Create API Key</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Boldonse&family=Changa+One:ital@0;1&family=Faster+One&family=Pirata+One&family=Rajdhani:wght@300;400;500;600;700&family=Rammetto+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="create-key.css">
+</head>
 
-<link rel="stylesheet" href="create-key.css">
+<body>
+  <div id="particles-js"></div>
 
-  </head>
-  <body>
-     <div id="particles-js"></div>
-    <div class="container">
-      <H2>CREATE API KEY</H2>
-      <p class="sub-title">Generate You Api key</p>
-      <div class="box">
-        
-        <label>Name Api Key</label>
-        <input type="text" placeholder="Enter Name API">
-        <label>Duration API Key</label>
-        <select id="desc">
-          <option value="">Select Duration</option>
-          <option value="10 DAY">10 DAY</option>
-          <option value="20 DAY">20 DAY</option>
-          <option value="30 DAY">30 DAY</option>
-          <option value="50 DAY">50 DAY</option>
-          <option value="PERMANENT">PERMANENT</option>
-        </select>
-        <label>Generate</label>
-        <div class="api-key-box">
-          <input type="text" value="Click Generate...!" readonly>
-          <button>Generate</button>
-        </div>
-        
-        <button class="save">Save</button>
-        
-        
+  <div class="container">
+    <h2>CREATE API KEY</h2>
+    <p class="sub-title">Generate your API key</p>
+
+    <div class="box">
+
+      <label>Name API Key</label>
+      <input type="text" id="name" placeholder="Enter Name API">
+
+      <label>Duration API Key</label>
+      <select id="desc">
+        <option value="">Select Duration</option>
+        <option value="10 DAY">10 DAY</option>
+        <option value="20 DAY">20 DAY</option>
+        <option value="30 DAY">30 DAY</option>
+        <option value="50 DAY">50 DAY</option>
+        <option value="PERMANENT">PERMANENT</option>
+      </select>
+
+      <label>Generate</label>
+      <div class="api-key-box">
+        <input type="text" id="apiKey" value="Click Generate...!" readonly>
+        <button id="generateBtn">Generate</button>
       </div>
-      
+
+      <button id="saveBtn" class="save">Save</button>
+
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-    <script src="particles.js"></script>
-    <script src="create-key.js"></script>
-  </body>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<script src="particles.js"></script>
+  <script src="create-key.js"></script>
+</body>
 </html>

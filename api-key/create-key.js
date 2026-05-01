@@ -1,28 +1,43 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const nameInput = document.querySelector('input[placeholder="Enter Name API"]');
-  const descInput = document.querySelector('select'); // dropdown duration
-  const apiInput = document.querySelector('.api-key-box input');
-  const generateBtn = document.querySelector('.api-key-box button');
-  const saveBtn = document.querySelector('.save');
+  const nameInput = document.getElementById("name");
+  const descInput = document.getElementById("desc");
+  const apiInput = document.getElementById("apiKey");
+  const generateBtn = document.getElementById("generateBtn");
+  const saveBtn = document.getElementById("saveBtn");
 
-  const BASE_URL = "http://192.168.1.3:3000";
+  const BASE_URL = "https://workshop-milk-genome-timing.trycloudflare.com";
 
   let sudahGenerate = false;
 
-  /* GENERATE API */
+  // 🔍 CEK ELEMENT
+  if (!nameInput || !descInput || !apiInput || !generateBtn || !saveBtn) {
+    console.error("❌ Ada element HTML yang tidak ditemukan!");
+    return;
+  }
+
+  /* =========================
+     GENERATE API
+  ========================= */
   generateBtn.addEventListener("click", async () => {
 
     const name = nameInput.value.trim();
     const duration = descInput.value;
+
+    console.log("KIRIM:", name, duration);
 
     if (!name) {
       alert("Isi nama API dulu!");
       return;
     }
 
+    if (!duration) {
+      alert("Pilih durasi dulu!");
+      return;
+    }
+
     if (sudahGenerate) {
-      alert("Harus Save dulu sebelum generate lagi!");
+      alert("Save dulu sebelum generate lagi!");
       return;
     }
 
@@ -33,13 +48,21 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          name: name,
-          duration: duration
-        })
+        body: JSON.stringify({ name, duration })
       });
 
+      if (!res.ok) {
+        throw new Error("Server error: " + res.status);
+      }
+
       const data = await res.json();
+
+      console.log("RESP:", data);
+
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
 
       if (!data.apiKey) {
         alert("Gagal generate!");
@@ -53,17 +76,25 @@ document.addEventListener("DOMContentLoaded", () => {
       generateBtn.style.opacity = "0.5";
 
     } catch (err) {
+      console.error(err);
       alert("Gagal konek ke server ❌");
     }
 
   });
 
+  /* =========================
+     COPY API
+  ========================= */
   apiInput.addEventListener("click", () => {
     if (!apiInput.value) return;
 
     navigator.clipboard.writeText(apiInput.value);
+    alert("API berhasil di copy!");
   });
 
+  /* =========================
+     SAVE LOCAL
+  ========================= */
   saveBtn.addEventListener("click", () => {
 
     const name = nameInput.value.trim();
@@ -78,11 +109,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const now = Date.now();
     let expired = null;
 
-    if (desc === "10 DAY") expired = now + 10 * 86400000;
-    if (desc === "20 DAY") expired = now + 20 * 86400000;
-    if (desc === "30 DAY") expired = now + 30 * 86400000;
-    if (desc === "50 DAY") expired = now + 50 * 86400000;
-    if (desc === "PERMANENT") expired = "PERMANENT";
+    const map = {
+      "10 DAY": 10,
+      "20 DAY": 20,
+      "30 DAY": 30,
+      "50 DAY": 50
+    };
+
+    if (map[desc]) {
+      expired = now + map[desc] * 86400000;
+    } else {
+      expired = "PERMANENT";
+    }
 
     const data = {
       name,
@@ -99,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     alert("API Key berhasil disimpan!");
 
-    window.location.href = "list.html";
+    window.location.href = "./list.html";
 
   });
 
