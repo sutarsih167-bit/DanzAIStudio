@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LOGIN V2</title>
+ <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+<div class="box">
+
+  <div class="header-video">
+    <video autoplay muted loop playsinline>
+      <source src="pc.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <h2>WELCOME BACK</h2>
+
+  <div class="input-group">
+    <i class="ph-fill ph-user"></i>
+    <input type="text" id="username" placeholder="User">
+  </div>
+
+  <div class="input-group">
+    <i class="ph-fill ph-lock-key"></i>
+    <input type="password" id="password" placeholder="Pass">
+  </div>
+
+  <input type="button" value="Masuk" onclick="login()">
+
+  <div class="group">
+    <a href="#">Forget Password</a>
+    <a href="#">Sign up</a>
+  </div>
+
+</div>
+<script src="login.js"></script>
+
+</body>
+</html>

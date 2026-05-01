@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Api Keys</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Boldonse&family=Changa+One:ital@0;1&family=Faster+One&family=Pirata+One&family=Rajdhani:wght@300;400;500;600;700&family=Rammetto+One&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="list.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1 class="title">DASHBOARD</h1>
+
+    <button class="create-btn" onclick="goCreate()">
+      Create Api Key
+    </button>
+  </div>
+
+  <div id="emptyState">
+    <div class="empty-box">
+      <div class="loader"></div>
+    </div>
+  </div>
+
+  <div id="apiList"></div>
+
+</div>
+
+<script src="list.js"></script>
+
+</body>
+</html>

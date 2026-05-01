@@ -1,0 +1,131 @@
+body {
+  user-select: none;
+  margin: 0;
+  font-family: 'Bebas Neue', monospace;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: #000;
+}
+
+.container {
+  width: 90%;
+  max-width: 350px;
+}
+
+h2 {
+  font-size: 38px;
+  color: #0ff;
+  text-align: center;
+  margin-bottom: -20px;
+}
+
+.sub-title {
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.box {
+  background: rgba(0, 0, 0, 0.85);
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #0ff;
+}
+
+label {
+  color: #fff;
+  font-size: 14px;
+  display: block;
+  margin-top: 10px;
+}
+
+input {
+  font-family: 'Bebas Neue', Monospace;
+  width: 100%;
+  height: 42px;
+  padding: 0 10px;
+  margin-top: 5px;
+  border: 2px solid #0ff;
+  border-radius: 8px;
+  background: #000;
+  color: #fff;
+  box-sizing: border-box;
+  transition: 0.2s;
+}
+
+input:focus {
+  border-color: #00ffff;
+  box-shadow: 0 0 8px #0ff;
+}
+
+select {
+  font-family: 'Bebas Neue', Monospace;
+  width: 100%;
+  height: 42px;
+  padding: 0 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  background: #000;
+  color: #fff;
+  border: 2px solid #0ff;
+}
+
+.api-key-box {
+  display: flex;
+  gap: 5px;
+  margin-top: 7px;
+}
+
+.api-key-box input {
+  flex: 1;
+  height: 42px;
+}
+
+.api-key-box button {
+  font-family: 'Bebas Neue', Monospace;
+  position: relative;
+  top: 5px;
+  height: 40px;
+  padding: 0 12px;
+  background: #0ff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.api-key-box button:hover {
+  background: #00e6e6;
+}
+
+.save {
+  font-family: 'Bebas Neue', Monospace;
+  width: 100%;
+  height: 42px;
+  margin-top: 15px;
+  background: #0ff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.save:hover {
+  background: #00e6e6;
+}
