@@ -1,84 +1,87 @@
+require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
 const admin = require("firebase-admin");
 
 const app = express();
-app.use(cors());
 app.use(express.json());
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_KEY);
+// =======================
+// 🔥 FIREBASE INIT
+// =======================
+let serviceAccount;
+
+try {
+  serviceAccount = JSON.parse(process.env.FIREBASE_KEY);
+
+  // FIX PRIVATE KEY (WAJIB)
+  serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+
+} catch (err) {
+  console.error("❌ FIREBASE_KEY error:", err.message);
+  process.exit(1);
+}
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
 });
 
 const db = admin.firestore();
 
-app.get("/", (req, res) => {
-  res.send("API SERVER RUNNING 🔥");
-});
+// =======================
+// 🔐 MIDDLEWARE API KEY
+// =======================
+async function checkApiKey(req, res, next) {
+  const apiKey = req.headers["x-api-key"];
 
-app.post("/create-key", async (req, res) => {
+  if (!apiKey) {
+    return res.status(401).json({ error: "API key required" });
+  }
+
   try {
-    const { name, duration } = req.body;
+    const snapshot = await db.collection("apiKeys").get();
 
-    if (!name) {
-      return res.json({ error: "Name wajib diisi" });
-    }
+    let valid = false;
 
-    const apiKey = "KEY-" + Math.random().toString(36).substring(2, 12);
-
-    let expired = null;
-    const now = Date.now();
-
-    if (duration === "10 DAY") expired = now + 10 * 86400000;
-    if (duration === "20 DAY") expired = now + 20 * 86400000;
-    if (duration === "30 DAY") expired = now + 30 * 86400000;
-    if (duration === "50 DAY") expired = now + 50 * 86400000;
-    if (duration === "PERMANENT") expired = "PERMANENT";
-
-    await db.collection("apiKeys").doc(apiKey).set({
-      name,
-      apiKey,
-      duration,
-      created: new Date().toISOString(),
-      expired
+    snapshot.forEach(doc => {
+      if (doc.data().apiKey === apiKey) {
+        valid = true;
+      }
     });
 
-    res.json({ apiKey });
+    if (!valid) {
+      return res.status(403).json({ error: "Invalid API key" });
+    }
+
+    next();
 
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Server error" });
   }
+}
+
+// =======================
+// 🚀 ROUTES
+// =======================
+
+// TEST ROOT
+app.get("/", (req, res) => {
+  res.send("🔥 API DANZAI STUDIO READY");
 });
 
-const checkApiKey = async (req, res, next) => {
-  const key = req.headers["x-api-key"];
-
-  if (!key) {
-    return res.status(401).json({ error: "API key kosong" });
-  }
-
-  const doc = await db.collection("apiKeys").doc(key).get();
-
-  if (!doc.exists) {
-    return res.status(403).json({ error: "API key tidak valid" });
-  }
-
-  const data = doc.data();
-
-  if (data.expired !== "PERMANENT" && Date.now() > data.expired) {
-    return res.status(403).json({ error: "API key expired" });
-  }
-
-  next();
-};
-
+// PROTECTED ROUTE
 app.get("/protected", checkApiKey, (req, res) => {
-  res.json({ message: "Akses berhasil 🔥" });
+  res.json({
+    success: true,
+    message: "Akses berhasil pakai API key 🔑"
+  });
 });
 
+// =======================
+// ▶️ START SERVER
+// =======================
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-  console.log("Server jalan di port", PORT);
+  console.log(`🚀 Server jalan di port ${PORT}`);
 });
